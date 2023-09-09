@@ -1,0 +1,19 @@
+#!/bin/bash
+
+function compose_up_dev(){
+  docker-compose down
+  docker volume rm -f taberoute_backend_postgres_volume
+  docker-compose up -d --build
+  docker-compose exec api rails db:create
+}
+
+if [ $# -eq 0 ];then
+  echo "Setup started"
+  compose_up_dev
+  echo "Setup completed!"
+else
+  echo "[ERROR!] Option \"$1\" does not exist."
+  exit 1
+fi
+
+
